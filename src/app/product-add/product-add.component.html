@@ -35,10 +35,9 @@
       </div>
       <div class="form-group">
         <label class="col-md-4">Product Description </label>
-        <textarea class="form-control" rows=7 cols="5" formControlName="ProductDescription"
-          #ProductDescription></textarea>
+        <textarea class="form-control" rows=7 cols="5" formControlName="ProductDescription" #ProductDescription></textarea>
       </div>
-      <div *ngIf="angForm.controls['ProductDescription'].invalid && (angForm.controls['ProductDescription'].dirty || angForm.controls['ProductDescription'].touched)" class="alertalert-danger">
+      <div *ngIf="angForm.controls['ProductDescription'].invalid && (angForm.controls['ProductDescription'].dirty || angForm.controls['ProductDescription'].touched)" class="alert alert-danger">
         <div *ngIf="angForm.controls['ProductDescription'].errors?.['required']">
           Product Description is required.
         </div>
@@ -53,10 +52,12 @@
         </div>
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary" [disabled]="angForm.pristine || angForm.invalid">
-          Create Product
+        <button (click) = "addProduct(ProductName.value, ProductDescription.value,
+        ProductPrice.value)" type="submit" class="btn btn-primary"
+        [disabled]="angForm.pristine || angForm.invalid" >
+        Create Product
         </button>
-      </div>
+        </div>
     </form>
   </div>
 </div>
