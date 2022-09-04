@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProductsService } from '../products.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -6,10 +9,32 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
+  angForm!: FormGroup;
+  product: any = {};
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private route: ActivatedRoute, private router: Router, private ps: ProductsService, private fb: FormBuilder) {
+    this.createForm();
   }
 
+  createForm() {
+    this.angForm = this.fb.group({
+      ProductName: ['', Validators.required],
+      ProductDescription: ['', Validators.required],
+      ProductPrice: ['', Validators.required]
+    });
+  }
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.ps.editProduct(params['id']).subscribe(res => {
+        this.product = res;
+      });
+    });
+  }
+
+  updateProduct(ProductName: string, ProductDescription: string, ProductPrice: any) {
+    this.route.params.subscribe(params => {
+      this.ps.updateProduct(ProductName, ProductDescription, ProductPrice, params['id']).subscribe((data) => this.router.navigate(['products']));
+    });
+  }
 }
